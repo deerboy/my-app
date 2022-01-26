@@ -8,6 +8,7 @@ import {
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+import ProductList from '../components/product-list';
 import { auth } from '../lib/firebase';
 import styles from '../styles/Home.module.css';
 
@@ -44,6 +45,7 @@ const Home: NextPage = () => {
         )}
 
         {user && <p>{user.displayName}さんようこそ</p>}
+        {user && <ProductList user={user}></ProductList>}
       </main>
     </div>
   );
