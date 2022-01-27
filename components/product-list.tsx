@@ -1,5 +1,12 @@
 import { User } from 'firebase/auth';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { db } from '../lib/firebase';
 
@@ -65,6 +72,40 @@ const ProductList = ({ user }: Props) => {
     }[interval];
   };
 
+  const redirectToCheckout = async (priceId: string) => {
+    const collectionRef = collection(
+      db,
+      `customers/${user.uid}/checkout_sessions`
+    );
+    const docRef = await addDoc(collectionRef, {
+      billing_address_collection: 'auto',
+      success_url: window.location.origin,
+      cancel_url: window.location.origin,
+      line_items: [
+        {
+          price: priceId,
+          tax_rates: ['txr_1KLKRBHKPHgsaXXh3RsYP1bW'],
+          quantity: 1,
+        },
+      ],
+    });
+
+    onSnapshot(docRef, (snap) => {
+      const { error, url } = snap.data() as {
+        url: string;
+        error: Error;
+      };
+
+      if (error) {
+        alert(`An error occured: ${error.message}`);
+      }
+
+      if (url) {
+        window.location.assign(url);
+      }
+    });
+  };
+
   return (
     <div>
       {products
@@ -79,6 +120,9 @@ const ProductList = ({ user }: Props) => {
                   {price.recurring.interval_count}
                   {getIntervalLabel(price.recurring.interval)}ごとに
                   {price.unit_amount.toLocaleString()}円
+                  <button onClick={() => redirectToCheckout(price.id)}>
+                    開始
+                  </button>
                 </div>
               ))}
           </div>
