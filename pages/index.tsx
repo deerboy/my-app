@@ -8,6 +8,7 @@ import {
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+import CustomerPortal from '../components/customer-portal';
 import ProductList from '../components/product-list';
 import PurchaseList from '../components/purchase-list';
 import { auth } from '../lib/firebase';
@@ -48,6 +49,7 @@ const Home: NextPage = () => {
         {user && <p>{user.displayName}さんようこそ</p>}
         {user && <ProductList user={user}></ProductList>}
         {user && <PurchaseList user={user}></PurchaseList>}
+        {user && <CustomerPortal />}
       </main>
     </div>
   );
