@@ -14,12 +14,20 @@ import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [role, setRole] = useState<string>();
 
   useEffect(() => {
     onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser);
+      getCustomClaimRole();
     });
   }, []);
+
+  const getCustomClaimRole = async () => {
+    await auth.currentUser?.getIdToken(true);
+    const decodedToken = await auth.currentUser?.getIdTokenResult();
+    setRole(decodedToken?.claims.stripeRole as string);
+  };
 
   const login = () => {
     signInWithPopup(auth, new GoogleAuthProvider());
@@ -43,6 +51,8 @@ const Home: NextPage = () => {
         ) : (
           <button onClick={login}>ログイン</button>
         )}
+
+        <p>{role === 'premium' ? 'プレミアムプラン' : 'フリープラン'}</p>
 
         {user && <p>{user.displayName}さんようこそ</p>}
         {user && <ProductList user={user} />}
