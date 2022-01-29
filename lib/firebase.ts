@@ -4,12 +4,13 @@ import { getAuth } from 'firebase/auth';
 import { getFunctions } from 'firebase/functions';
 
 const app = initializeApp({
-  apiKey: 'AIzaSyB_QOP-ChZ0gUK1Tt_kOeMJbYxizJx7i_E',
-  authDomain: 'tutorial-8a0b2.firebaseapp.com',
-  projectId: 'tutorial-8a0b2',
-  storageBucket: 'tutorial-8a0b2.appspot.com',
-  messagingSenderId: '755921569678',
-  appId: '1:755921569678:web:10cb0bedbeb5234ba306df',
+  apiKey: 'AIzaSyDhtbeoKNb8edPfhsVw15tpmpYH8fAhDZA',
+  authDomain: 'mini-app-ab758.firebaseapp.com',
+  projectId: 'mini-app-ab758',
+  storageBucket: 'mini-app-ab758.appspot.com',
+  messagingSenderId: '46999316230',
+  appId: '1:46999316230:web:9ac501473b5033bff1e087',
+  measurementId: 'G-V6BT68N1D0',
 });
 
 export const db = getFirestore(app);
