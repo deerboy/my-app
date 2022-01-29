@@ -8,6 +8,7 @@ import {
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { useEffect, useState } from 'react';
+import StripeAccount from '../components/stripe-account';
 import { auth } from '../lib/firebase';
 import styles from '../styles/Home.module.css';
 
@@ -44,6 +45,7 @@ const Home: NextPage = () => {
         )}
 
         {user && <p>{user.displayName}さんようこそ</p>}
+        {user && <StripeAccount user={user} />}
       </main>
     </div>
   );
