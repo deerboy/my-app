@@ -38,6 +38,12 @@ const StripeAccount = ({ user }: Props) => {
     }
   };
 
+  const redirectStripeAccountForm = async () => {
+    const callable = httpsCallable(fns, 'getStripeAccountFormLink');
+    const { data } = await callable(stripeAccount?.stripeAccountId);
+    window.location.assign(data as string);
+  };
+
   return (
     <div>
       {!stripeAccount && (
@@ -48,7 +54,13 @@ const StripeAccount = ({ user }: Props) => {
       {stripeAccount && (
         <p>ConnectアカウントID: {stripeAccount.stripeAccountId}</p>
       )}
-      {!stripeAccount?.valid && <button>販売者情報を登録してください</button>}
+      {stripeAccount && !stripeAccount.valid ? (
+        <button onClick={redirectStripeAccountForm}>
+          販売者情報を登録してください
+        </button>
+      ) : (
+        <p>確認情報の登録が完了しています✅</p>
+      )}
     </div>
   );
 };
