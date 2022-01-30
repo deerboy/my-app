@@ -44,6 +44,12 @@ const StripeAccount = ({ user }: Props) => {
     window.location.assign(data as string);
   };
 
+  const redirectToDashboard = async () => {
+    const callable = httpsCallable(fns, 'getDashboardLink');
+    const { data } = await callable();
+    location.assign(data as string);
+  };
+
   return (
     <div>
       {!stripeAccount && (
@@ -60,6 +66,12 @@ const StripeAccount = ({ user }: Props) => {
         </button>
       ) : (
         <p>確認情報の登録が完了しています✅</p>
+      )}
+
+      {stripeAccount?.valid && (
+        <div>
+          <button onClick={redirectToDashboard}>ダッシュボードを開く</button>
+        </div>
       )}
     </div>
   );
